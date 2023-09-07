@@ -17,5 +17,6 @@
     - include: tasks/zsh-setup.yml
     - include: tasks/sdkman-setup.yml
     - include: tasks/nvim-setup.yml
+    - include: tasks/tmux-setup.yml
     - include: tasks/dotfiles.yml
 
