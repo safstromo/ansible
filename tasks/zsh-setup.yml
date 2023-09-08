@@ -7,7 +7,7 @@
     - curl  # Install curl as a dependency
     - unzip
     - fontconfig
-    - cmake
+    - zip
   tags: &tags_for_zsh_tasks ["install", "dotfiles", "zsh"]
 
 - name: Change shell to Zsh
@@ -48,10 +48,10 @@
   ansible.builtin.command: fc-cache -f -v
   tags: *tags_for_zsh_tasks
 
-- name: Set Terminal Font (GNOME Terminal)
-  ansible.builtin.command:
-    cmd: gsettings set org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$(gsettings get org.gnome.Terminal.ProfilesList default | awk -F "'" '{print $2}')/ font 'JetBrains Mono Nerd Font 12'
-  tags: *tags_for_zsh_tasks
+# - name: Set Terminal Font (GNOME Terminal)
+#   ansible.builtin.command:
+#     cmd: gsettings set org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$(gsettings get org.gnome.Terminal.ProfilesList default | awk -F "'" '{print $2}')/ font 'JetBrains Mono Nerd Font 12'
+#   tags: *tags_for_zsh_tasks
 
 - name: Install Starship
   shell: curl -fsSL https://starship.rs/install.sh -o starship_install.sh && chmod +x ./starship_install.sh && ./starship_install.sh -y
