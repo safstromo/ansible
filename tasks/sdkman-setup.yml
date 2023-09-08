@@ -16,25 +16,32 @@
   tags:
     - install
     - dotfiles
-  when: sdk_stats.stat.exists == False
+  when: sdkman_stats.stat.exists == False
+
+- name: Register SDKman installation status
+  set_fact:
+    sdkman_installed: "{{ sdkman_stats.stat.exists }}"
+  tags:
+    - install
+    - dotfiles
 
 - name: Install Java 20.0.2-tem
   become_user: eox
-  ansible.builtin.shell: "sdk install java 20.0.2-tem"
-  when: sdkman_installer.failed == false
+  ansible.builtin.shell: "source /home/eox/.sdkman/bin/sdkman-init.sh && sdk install java 20.0.2-tem"
+  when: sdkman_installed == True
 
 - name: Install Java 17.0.8-tem
   become_user: eox
-  ansible.builtin.shell: "sdk install java 17.0.8-tem"
-  when: sdkman_installer.failed == false
+  ansible.builtin.shell: "source /home/eox/.sdkman/bin/sdkman-init.sh && sdk install java 17.0.8-tem"
+  when: sdkman_installed == True
 
 - name: Install quarkus
   become_user: eox
-  ansible.builtin.shell: "sdk install quarkus"
-  when: sdkman_installer.failed == false
+  ansible.builtin.shell: "source /home/eox/.sdkman/bin/sdkman-init.sh && sdk install quarkus"
+  when: sdkman_installed == True
 
 - name: Clean up SDKMAN! installer
   ansible.builtin.file:
     path: /home/eox/sdkman_installer.sh
     state: absent
-
+  when: sdkman_installed == True
