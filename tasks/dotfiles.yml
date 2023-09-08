@@ -6,6 +6,7 @@
     - stow
 
 - name: Cloning .dotfiles
+  become_user: eox
   ansible.builtin.git:
     repo: 'https://github.com/safstromo/.dotfiles.git'
     dest: "{{ lookup('env', 'HOME') }}/.dotfiles"
@@ -18,6 +19,7 @@
     - stow
 
 - name: Stow dotfiles
+  become_user: eox
   shell: cd $HOME/.dotfiles && chmod +x ubuntu && chmod +x install && ./ubuntu
   tags:
     - install
