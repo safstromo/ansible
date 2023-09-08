@@ -21,12 +21,16 @@
   register: oh_my_stats
   tags: *tags_for_zsh_tasks
 
-- name: Install Oh-My-Zsh
+
+- name: Install Oh-My-Zsh for eox
   become_user: eox
-  shell: curl -L https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh > ~/.oh-my-installer && chmod +x ~/.oh-my-installer && ~/.oh-my-installer
+  shell: >
+    curl -L https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh > /home/eox/.oh-my-installer &&
+    chmod +x /home/eox/.oh-my-installer &&
+    /home/eox/.oh-my-installer
   tags: *tags_for_zsh_tasks
   when: oh_my_stats.stat.exists == False
-  become_user: eox
+
 
 - name: Download JetBrains Mono Nerd Font
   ansible.builtin.get_url:
@@ -55,15 +59,19 @@
 #     cmd: gsettings set org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$(gsettings get org.gnome.Terminal.ProfilesList default | awk -F "'" '{print $2}')/ font 'JetBrains Mono Nerd Font 12'
 #   tags: *tags_for_zsh_tasks
 
-- name: Install Starship
+- name: Install Starship for eox
   become_user: eox
-  shell: curl -fsSL https://starship.rs/install.sh -o starship_install.sh && chmod +x ./starship_install.sh && ./starship_install.sh -y
+  shell: |
+    curl -fsSL https://starship.rs/install.sh -o /home/eox/starship_install.sh &&
+    chmod +x /home/eox/starship_install.sh &&
+    /home/eox/starship_install.sh -y
   tags: *tags_for_zsh_tasks
 
-- name: Install zsh-autosuggestions
+- name: Install zsh-autosuggestions for eox
   become_user: eox
   ansible.builtin.git:
     repo: "https://github.com/zsh-users/zsh-autosuggestions.git"
-    dest: "~/.oh-my-zsh/plugins/zsh-autosuggestions"
+    dest: "/home/eox/.oh-my-zsh/plugins/zsh-autosuggestions"
   tags: *tags_for_zsh_tasks
+
 

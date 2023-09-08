@@ -36,7 +36,7 @@
   become_user: eox
   git:
     repo: https://github.com/NvChad/NvChad.git
-    dest: ~/.config/nvim
+    dest: /home/eox/.config/nvim
     depth: 1
   register: nvchad_repo
   tags:

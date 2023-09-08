@@ -10,7 +10,7 @@
   become_user: eox
   ansible.builtin.git:
     repo: 'https://github.com/safstromo/.dotfiles.git'
-    dest: "{{ lookup('env', 'HOME') }}/.dotfiles"
+    dest: /home/eox/.dotfiles
     recursive: yes
     update: yes
     version: main
@@ -20,7 +20,7 @@
     - stow
 
 - name: Stow dotfiles
-  shell: cd $HOME/.dotfiles && chmod +x ubuntu && chmod +x install && ./ubuntu
+  shell: cd /home/eox/.dotfiles && chmod +x ubuntu && chmod +x install && ./ubuntu
   tags:
     - install
     - dotfiles

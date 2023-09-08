@@ -11,7 +11,7 @@
   become_user: eox
   git:
     repo: https://github.com/tmux-plugins/tpm.git
-    dest: ~/.tmux/plugins/tpm
+    dest: /home/eox/.tmux/plugins/tpm
     update: yes # Update if the repository already exists
   tags:
     - install
