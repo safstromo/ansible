@@ -16,8 +16,8 @@
     - tmux
     - tpm
 
-- name: Set GNOME Terminal to run Tmux on startup
-  ansible.builtin.command: >
-    gsettings set org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$(gsettings get org.gnome.Terminal.ProfilesList default | awk -F "'" '{print $2}')/ custom-command "tmux"
-  tags:
-    - tmux
+# - name: Set GNOME Terminal to run Tmux on startup
+#   ansible.builtin.command: >
+#     gsettings set org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$(gsettings get org.gnome.Terminal.ProfilesList default | awk -F "'" '{print $2}')/ custom-command "tmux"
+#   tags:
+#     - tmux
