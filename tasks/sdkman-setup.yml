@@ -1,23 +1,22 @@
-- name: Download SDKMAN! Installer
+- name: Check if SDKman is installed
   become_user: eox
-  ansible.builtin.get_url:
-    url: https://get.sdkman.io
-    dest: /tmp/sdkman_installer.sh
-  register: sdkman_installer
+  stat:
+    path: /home/eox/.sdkman
+  register: sdkman_stats
+  tags:
+    - install
+    - dotfiles
 
-- name: Run SDKMAN! Installer
+- name: Install SDKman
   become_user: eox
-  ansible.builtin.shell: "bash /tmp/sdkman_installer.sh"
-  environment:
-    HOME: "{{ lookup('env', 'HOME') }}"
-  when: sdkman_installer.failed == false
-
-- name: Load SDKMAN! into the shell
-  become_user: eox
-  ansible.builtin.shell: source "$HOME/.sdkman/bin/sdkman-init.sh"
-  environment:
-    HOME: "{{ lookup('env', 'HOME') }}"
-  when: sdkman_installer is defined and sdkman_installer.failed == false
+  shell: >
+    curl -s "https://get.sdkman.io" > /home/eox/sdkman_installer.sh &&
+    chmod +x /home/eox/sdkman_installer.sh &&
+    /home/eox/sdkman_installer.sh
+  tags:
+    - install
+    - dotfiles
+  when: sdk_stats.stat.exists == False
 
 - name: Install Java 20.0.2-tem
   become_user: eox
@@ -36,6 +35,6 @@
 
 - name: Clean up SDKMAN! installer
   ansible.builtin.file:
-    path: /tmp/sdkman_installer.sh
+    path: /home/eox/sdkman_installer.sh
     state: absent
 
