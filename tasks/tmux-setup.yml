@@ -1,29 +1,23 @@
+- name: Install Tmux
+  apt:
+    name: tmux
+    state: present
+  tags:
+    - install
+    - tmux
 
-- name: Install Tmux and Tmux Plugin Manager (TPM)
-  hosts: localhost  # You can change the target host if needed
-  become: yes      # Run with elevated privileges (sudo)
-  tasks:
-    - name: Install Tmux
-      apt:
-        name: tmux
-        state: present
-      tags:
-        - install
-        - tmux
+- name: Clone TPM (Tmux Plugin Manager) repository
+  git:
+    repo: https://github.com/tmux-plugins/tpm.git
+    dest: ~/.tmux/plugins/tpm
+    update: yes # Update if the repository already exists
+  tags:
+    - install
+    - tmux
+    - tpm
 
-    - name: Clone TPM (Tmux Plugin Manager) repository
-      git:
-        repo: https://github.com/tmux-plugins/tpm.git
-        dest: ~/.tmux/plugins/tpm
-        update: yes  # Update if the repository already exists
-      tags:
-        - install
-        - tmux
-        - tpm
-
-    - name: Set GNOME Terminal to run Tmux on startup
-      ansible.builtin.command: >
-        gsettings set org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$(gsettings get org.gnome.Terminal.ProfilesList default | awk -F "'" '{print $2}')/ custom-command "tmux"
-      tags:
-        - tmux
-
+- name: Set GNOME Terminal to run Tmux on startup
+  ansible.builtin.command: >
+    gsettings set org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$(gsettings get org.gnome.Terminal.ProfilesList default | awk -F "'" '{print $2}')/ custom-command "tmux"
+  tags:
+    - tmux

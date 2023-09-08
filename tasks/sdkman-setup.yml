@@ -1,42 +1,41 @@
----
-- name: Install SDKMAN! and Java versions
-  become: yes  # You may need to become a superuser to install SDKMAN!
-  tags:
-    - install
-    - dotfiles
-  tasks:
-    - name: Download SDKMAN! Installer
-      ansible.builtin.get_url:
-        url: https://get.sdkman.io
-        dest: /tmp/sdkman_installer.sh
-      register: sdkman_installer
-
-    - name: Run SDKMAN! Installer
-      ansible.builtin.shell: "bash /tmp/sdkman_installer.sh"
-      environment:
-        HOME: "{{ lookup('env', 'HOME') }}"
-      when: sdkman_installer.failed == false
-
-    - name: Load SDKMAN! into the shell
-      ansible.builtin.shell: source "$HOME/.sdkman/bin/sdkman-init.sh"
-      environment:
-        HOME: "{{ lookup('env', 'HOME') }}"
-      when: sdkman_installer.failed == false
-
-    - name: Verify SDKMAN! installation
-      ansible.builtin.shell: sdk version
-      when: sdkman_installer.failed == false
-
-    - name: Install Java 20.0.2-tem
-      ansible.builtin.shell: "sdk install java 20.0.2-tem"
-      when: sdkman_installer.failed == false
-
-    - name: Install Java 17.0.8-tem
-      ansible.builtin.shell: "sdk install java 17.0.8-tem"
-      when: sdkman_installer.failed == false
-
-    - name: Clean up SDKMAN! installer
-      ansible.builtin.file:
-        path: /tmp/sdkman_installer.sh
-        state: absent
-
+# - name: Install SDKMAN! and Java versions
+#   become: yes  # You may need to become a superuser to install SDKMAN!
+#   tags:
+#     - install
+#     - dotfiles
+#   tasks:
+#     - name: Download SDKMAN! Installer
+#       ansible.builtin.get_url:
+#         url: https://get.sdkman.io
+#         dest: /tmp/sdkman_installer.sh
+#       register: sdkman_installer
+#
+#     - name: Run SDKMAN! Installer
+#       ansible.builtin.shell: "bash /tmp/sdkman_installer.sh"
+#       environment:
+#         HOME: "{{ lookup('env', 'HOME') }}"
+#       when: sdkman_installer.failed == false
+#
+#     - name: Load SDKMAN! into the shell
+#       ansible.builtin.shell: source "$HOME/.sdkman/bin/sdkman-init.sh"
+#       environment:
+#         HOME: "{{ lookup('env', 'HOME') }}"
+#       when: sdkman_installer.failed == false
+#
+#     - name: Verify SDKMAN! installation
+#       ansible.builtin.shell: sdk version
+#       when: sdkman_installer.failed == false
+#
+#     - name: Install Java 20.0.2-tem
+#       ansible.builtin.shell: "sdk install java 20.0.2-tem"
+#       when: sdkman_installer.failed == false
+#
+#     - name: Install Java 17.0.8-tem
+#       ansible.builtin.shell: "sdk install java 17.0.8-tem"
+#       when: sdkman_installer.failed == false
+#
+#     - name: Clean up SDKMAN! installer
+#       ansible.builtin.file:
+#         path: /tmp/sdkman_installer.sh
+#         state: absent
+#

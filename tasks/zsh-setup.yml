@@ -5,6 +5,9 @@
   with_items:
     - zsh
     - curl  # Install curl as a dependency
+    - unzip
+    - fontconfig
+    - cmake
   tags: &tags_for_zsh_tasks ["install", "dotfiles", "zsh"]
 
 - name: Change shell to Zsh
@@ -29,10 +32,16 @@
     dest: /tmp/JetBrainsMono.zip
   tags: *tags_for_zsh_tasks
 
+- name: Create the directory for JetBrains Mono Nerd Font
+  ansible.builtin.file:
+    path: /usr/local/share/fonts
+    state: directory
+  tags: *tags_for_zsh_tasks
+
 - name: Extract JetBrains Mono Nerd Font
   ansible.builtin.unarchive:
     src: /tmp/JetBrainsMono.zip
-    dest: /usr/local/share/fonts/JetBrainsMono
+    dest: /usr/local/share/fonts
   tags: *tags_for_zsh_tasks
 
 - name: Update Font Cache
@@ -40,8 +49,8 @@
   tags: *tags_for_zsh_tasks
 
 - name: Set Terminal Font (GNOME Terminal)
-  ansible.builtin.command: >
-    gsettings set org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$(gsettings get org.gnome.Terminal.ProfilesList default | awk -F "'" '{print $2}')/ font 'JetBrains Mono Nerd Font 12'
+  ansible.builtin.command:
+    cmd: gsettings set org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$(gsettings get org.gnome.Terminal.ProfilesList default | awk -F "'" '{print $2}')/ font 'JetBrains Mono Nerd Font 12'
   tags: *tags_for_zsh_tasks
 
 - name: Install Starship
