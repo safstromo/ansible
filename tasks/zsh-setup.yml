@@ -56,10 +56,12 @@
 #   tags: *tags_for_zsh_tasks
 
 - name: Install Starship
+  become_user: eox
   shell: curl -fsSL https://starship.rs/install.sh -o starship_install.sh && chmod +x ./starship_install.sh && ./starship_install.sh -y
   tags: *tags_for_zsh_tasks
 
 - name: Install zsh-autosuggestions
+  become_user: eox
   ansible.builtin.git:
     repo: "https://github.com/zsh-users/zsh-autosuggestions.git"
     dest: "~/.oh-my-zsh/plugins/zsh-autosuggestions"
