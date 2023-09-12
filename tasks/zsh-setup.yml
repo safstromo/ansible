@@ -9,10 +9,11 @@
     - unzip
     - fontconfig
     - zip
-    - npm
+    - xclip
+    #- npm
     - python3-pip
     - python3.10-venv
-    - nodejs
+   # - nodejs
   tags: &tags_for_zsh_tasks ["install", "dotfiles", "zsh"]
 
 - name: Change shell to Zsh
