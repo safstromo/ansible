@@ -5,15 +5,16 @@
     state: present
   with_items:
     - zsh
-    - curl  # Install curl as a dependency
+    - curl # Install curl as a dependency
     - unzip
     - fontconfig
     - zip
     - xclip
+    - fzf
     #- npm
     - python3-pip
     - python3.10-venv
-   # - nodejs
+    # - nodejs
   tags: &tags_for_zsh_tasks ["install", "dotfiles", "zsh"]
 
 - name: Change shell to Zsh
@@ -26,7 +27,6 @@
   register: oh_my_stats
   tags: *tags_for_zsh_tasks
 
-
 - name: Install Oh-My-Zsh for eox
   become_user: eox
   shell: >
@@ -35,7 +35,6 @@
     /home/eox/.oh-my-installer
   tags: *tags_for_zsh_tasks
   when: oh_my_stats.stat.exists == False
-
 
 - name: Download JetBrains Mono Nerd Font
   ansible.builtin.get_url:
@@ -78,5 +77,3 @@
     repo: "https://github.com/zsh-users/zsh-autosuggestions.git"
     dest: "/home/eox/.oh-my-zsh/plugins/zsh-autosuggestions"
   tags: *tags_for_zsh_tasks
-
-
