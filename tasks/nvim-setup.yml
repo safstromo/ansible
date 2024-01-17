@@ -32,23 +32,11 @@
     - install
     - dotfiles
 
-- name: Clone NvChad repository
-  become_user: eox
-  git:
-    repo: https://github.com/NvChad/NvChad.git
-    dest: /home/eox/.config/nvim
-    depth: 1
-  register: nvchad_repo
-  tags:
-    - install
-    - dotfiles
-
 - name: Install Ripgrep (optional for Telescope)
   become: true
   apt:
     name: ripgrep
     state: present
-  when: nvchad_repo.changed
   tags:
     - install
     - dotfiles
